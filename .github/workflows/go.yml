@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  release:
+    types: [created]
 
 jobs:
 
@@ -45,7 +47,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.15.3.linux-amd64.tar.gz"
-        project_path: "."
-        binary_name: "testserver"
-        extra_files: README.md
+        goversion: "1.15.3"
