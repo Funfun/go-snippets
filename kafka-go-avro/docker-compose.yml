@@ -32,6 +32,8 @@ services:
     ports:
         - '8082:8082'
     command: -addr "kafka:9092"
+    depends_on:
+      - kafka
   consumer:
     build:
       context: .
@@ -39,6 +41,8 @@ services:
     ports:
         - '8080:8080'
     command: -addr "kafka:9092"
+    depends_on:
+      - kafka
 
 volumes:
   zookeeper_data:
