@@ -1,0 +1,15 @@
+FROM golang:alpine
+
+ENV GIN_MODE=release
+ENV PORT=8082
+
+WORKDIR /go/src/app
+
+COPY producer /go/src/app/producer
+COPY vendor /go/src/app/vendor
+
+RUN go build -o producer /go/src/app/producer
+
+EXPOSE $PORT
+
+ENTRYPOINT ["./producer"]

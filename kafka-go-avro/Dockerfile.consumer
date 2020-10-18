@@ -1,0 +1,14 @@
+FROM golang:alpine
+
+ENV GIN_MODE=release
+ENV PORT=8080
+
+WORKDIR /go/src/app
+COPY consumer /go/src/app/consumer
+COPY vendor /go/src/app/vendor
+
+RUN go build -o consumer /go/src/app/consumer
+
+EXPOSE $PORT
+
+ENTRYPOINT ["./consumer"]
