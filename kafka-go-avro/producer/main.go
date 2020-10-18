@@ -12,35 +12,37 @@ var (
 	kafkaAddr  = flag.String("addr", "localhost:9092", "Kafka connection address")
 )
 
-func main() {
-	flag.Parse()
-
+func newMessageHandler(c *gin.Context) {
 	producer, err := NewProducer(*kafkaAddr, *kafkaTopic)
 	if err != nil {
 		log.Fatalf("failed to create producer: %s", err)
 	}
 	defer producer.Close()
 
-	r := gin.Default()
-	r.POST("/messages", func(c *gin.Context) {
-		msg := c.PostForm("message")
+	msg := c.PostForm("message")
 
-		if err := producer.Send([]byte(msg)); err != nil {
-			c.JSON(500, gin.H{
-				"status": "failed",
-				"error":  err.Error(),
-			})
-
-			return
-		}
-
-		c.JSON(200, gin.H{
-			"status": "send",
-			"info": gin.H{
-				"topic": producer.Topic,
-				"addr":  producer.Address,
-			},
+	if err := producer.Send([]byte(msg)); err != nil {
+		c.JSON(500, gin.H{
+			"status": "failed",
+			"error":  err.Error(),
 		})
+
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"status": "send",
+		"info": gin.H{
+			"topic": producer.Topic,
+			"addr":  producer.Address,
+		},
 	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}
+
+func main() {
+	flag.Parse()
+
+	r := gin.Default()
+	r.POST("/messages", newMessageHandler)
+	r.Run()
 }
