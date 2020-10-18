@@ -4,10 +4,13 @@ ENV GIN_MODE=release
 ENV PORT=8080
 
 WORKDIR /go/src/app
-COPY consumer /go/src/app/consumer
-COPY vendor /go/src/app/vendor
 
-RUN go build -o consumer /go/src/app/consumer
+COPY consumer /go/src/app
+COPY vendor /go/src/app/vendor
+COPY go.mod /go/src/app/
+COPY go.sum /go/src/app/
+
+RUN go build -o consumer /go/src/app
 
 EXPOSE $PORT
 

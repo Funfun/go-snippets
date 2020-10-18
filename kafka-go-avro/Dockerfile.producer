@@ -5,10 +5,12 @@ ENV PORT=8082
 
 WORKDIR /go/src/app
 
-COPY producer /go/src/app/producer
+COPY producer /go/src/app
 COPY vendor /go/src/app/vendor
+COPY go.mod /go/src/app/
+COPY go.sum /go/src/app/
 
-RUN go build -o producer /go/src/app/producer
+RUN go build -mod=vendor -o producer /go/src/app
 
 EXPOSE $PORT
 
