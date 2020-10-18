@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +14,12 @@ var (
 func newMessageHandler(c *gin.Context) {
 	producer, err := NewProducer(*kafkaAddr, *kafkaTopic)
 	if err != nil {
-		log.Fatalf("failed to create producer: %s", err)
+		c.JSON(500, gin.H{
+			"status": "failed",
+			"error":  err.Error(),
+		})
+
+		return
 	}
 	defer producer.Close()
 
