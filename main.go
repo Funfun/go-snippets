@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
