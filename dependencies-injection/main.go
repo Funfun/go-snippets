@@ -26,6 +26,17 @@ func main() {
 
 	// 2. Using Variadic Functions with Option Functions
 	_ = NewClient(WithURL("https://secure.example"))
+
+	// 3. pass interfaces, return structs
+	storage := Storage{}
+	_ = NewCustomer(storage)
+}
+
+type Storage struct {
+}
+
+func (s Storage) Data() []string {
+	return []string{"Dummy"}
 }
 
 type ClientConfig struct {
@@ -52,4 +63,15 @@ func WithURL(url string) func(client *Client) {
 	return func(client *Client) {
 		client.url = url
 	}
+}
+
+type Share interface {
+	Data() []string
+}
+type Account struct {
+	Info []string
+}
+
+func NewCustomer(share Share) *Account {
+	return &Account{Info: share.Data()}
 }
