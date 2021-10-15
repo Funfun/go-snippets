@@ -7,7 +7,3 @@
 [Go Beats](https://github.com/elastic/beats)
 
 [Creating new beat](https://www.elastic.co/guide/en/beats/devguide/current/new-beat.html)
-
-
-
-
