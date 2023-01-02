@@ -25,3 +25,24 @@ func partition(arr []int, low, high int) ([]int, int) {
 	arr[i], arr[high] = arr[high], arr[i]
 	return arr, i
 }
+
+func substrgenerator() {
+	arr := []string{"a", "b", "c"}
+	// 	a
+	// 	b
+	// 	c
+	// 	ab
+	// 	bc
+	// 	abc
+	n := len(arr)
+	for l := 1; l <= n; l++ {
+		for i := 0; i <= n-l; i++ {
+			j := i + l - 1
+			out := strings.Builder{}
+			for k := i; k <= j; k++ {
+				out.WriteString(arr[k])
+			}
+			fmt.Println(out.String())
+		}
+	}
+}
